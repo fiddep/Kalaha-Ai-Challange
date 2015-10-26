@@ -2,6 +2,8 @@ package gameBoard;
 
 import java.util.Arrays;
 
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
+
 /**
  * 
  * @author Fredrik
@@ -32,10 +34,9 @@ public class Board {
 	 *         false
 	 */
 	public boolean move(int index, int id) {
-		if (checkValidIndex(index, id)) {
+		if (!checkValidIndex(index, id)) {
 			return false;
 		}
-
 		int marbels = gameBoard[index];
 		gameBoard[index] = 0;
 
@@ -104,7 +105,7 @@ public class Board {
 	 * starts
 	 */
 	private void setupBoard() {
-		for (int i = 1; i < gameBoard.length; i++) {
+		for (int i = 0; i < gameBoard.length; i++) {
 			if (i == 0 || i == 7) {
 
 			} else {
@@ -128,14 +129,14 @@ public class Board {
 
 	private boolean checkRange(int index, int id) {
 		if (id == 1) {
-			for (int i = 0; i < playerOneRange.length - 1; i++) {
+			for (int i = 0; i < playerOneRange.length; i++) {
 				if (playerOneRange[i] == index) {
 					return true;
 				}
 			}
 			return false;
 		} else {
-			for (int i = 0; i < playerTwoRange.length - 1; i++) {
+			for (int i = 0; i < playerTwoRange.length; i++) {
 				if (playerTwoRange[i] == index) {
 					return true;
 				}

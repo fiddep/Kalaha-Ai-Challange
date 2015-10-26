@@ -27,7 +27,7 @@ public class EasyAi extends Ai {
 	private int zeroMarbleLeft(int[] board) {
 		for (int i = 0; i < range.length - 1; i++) {
 			int index = range[i];
-			if (board[index] == i) {
+			if (board[index] == i && board[index] != 0) {
 				return i;
 			}
 		}
