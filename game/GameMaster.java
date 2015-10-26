@@ -10,8 +10,22 @@ public class GameMaster {
 		EasyAi playerOne = new EasyAi(1, gameBoard);
 		EasyAi playerTwo = new EasyAi(2, gameBoard);
 		
-		while(!gameBoard.gameFinished()){
+		int index;
+		while (!gameBoard.gameFinished()) {
 			
+
+			do {
+				index = playerOne.doRound();
+			} while (gameBoard.move(index, 1));
+
+			do {
+				index = playerTwo.doRound();
+				System.out.println(index);
+			} while (gameBoard.move(index, 2));
+
+			// gameBoard.printBoard();
 		}
+
+		gameBoard.scoreBoard();
 	}
 }

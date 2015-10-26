@@ -2,36 +2,32 @@ package ai;
 
 import gameBoard.Board;
 
-public class EasyAi {
-	Board board;
-	int[] ambonas;
-	private int id;
-
+public class EasyAi extends Ai {
+	int range[];
+	
 	public EasyAi(int id, Board board) {
-		this.board = board;
-		this.id = id;
+		super(id, board);
+		this.range = board.getAllowedRange(id);
 	}
 
-	public void run() {
-		ambonas = board.splitBoard(id);
-		doRound();
-	}
+	public int doRound() {
+		int index = zeroMarbleLeft(board.getBoard());
+		
+		if (index == -1) {
 
-	private void doRound() {
-		int index = zeroMarbleLeft(ambonas);
-		if(index == -1){
-			
-		} else{
-			board.move(index, id);
-			return ;
+		} else {
+			return index;
 		}
-		index = (int)((Math.random()*10)%5);
-		board.move(index, id);
+		
+		index = (int) ((Math.random() * 10) % 6);
+		System.out.println(id + ": " + range[index]);
+		return range[index];
 	}
 
-	private int zeroMarbleLeft(int[] ambonas) {
-		for (int i = 0; i < ambonas.length - 1; i++) {
-			if (ambonas[i] == i) {
+	private int zeroMarbleLeft(int[] board) {
+		for (int i = 0; i < range.length - 1; i++) {
+			int index = range[i];
+			if (board[index] == i) {
 				return i;
 			}
 		}
