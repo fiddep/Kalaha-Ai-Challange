@@ -30,6 +30,8 @@ public class BoardTest {
 		
 		board.move(2,1);
 		assertEquals("Value after move not correct", 5,board.getAmbonaValue(3));
+		
+		assertFalse(message, condition);
 	}
 
 }
