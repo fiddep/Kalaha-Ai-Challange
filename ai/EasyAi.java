@@ -7,7 +7,8 @@ public class EasyAi extends Ai {
 	
 	public EasyAi(int id, Board board) {
 		super(id, board);
-		this.range = board.getAllowedRange(id);
+		System.out.println(id);
+		this.range = board.getAllowedRange(super.id);
 	}
 
 	public int doRound() {
@@ -20,9 +21,7 @@ public class EasyAi extends Ai {
 		}
 		
 		index = (int) ((Math.random() * 10) % 6);
-		if(id==1){
-			System.out.println(id + ": " + range[index]);
-		}
+		System.out.println("EasyAi -> " + id + ": " + range[index]);
 		return range[index];
 	}
 

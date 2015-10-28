@@ -48,5 +48,13 @@ public class BoardTest {
 		assertFalse("Player allowed to move other players ambonas", board.move(1, 2));
 		assertFalse("Player allowed to move other players ambonas", board.move(9, 1));
 	}
-
+	
+	@Test
+	public void goAgainTest(){
+		assertTrue("Player should go again", board.move(4, 1));
+		assertFalse("Player should not go again", board.move(1, 1));
+		
+		assertTrue("Player should go again", board.move(11, 2));
+		assertFalse("Player should not go again", board.move(8, 2));
+	}
 }

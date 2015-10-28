@@ -37,13 +37,8 @@ public class Board {
 		}
 
 		int marbels = gameBoard[index];
-		if (index == 8) {
-			System.out.println(marbels);
-		}
 		gameBoard[index++] = 0;
-		if (index == 9) {
-			System.out.println(gameBoard[8]);
-		}
+
 		while (marbels != 0) {
 			/*
 			 * Don't put a marble in the opponents Kalaha otherwise continue as
@@ -81,6 +76,7 @@ public class Board {
 		/*
 		 * If the last marble is in the players kalaha they may go again
 		 */
+		
 		if (index % 14 == playerTwoKalaha || index % 14 == playerOneKalaha) {
 			return true;
 		}
@@ -147,7 +143,7 @@ public class Board {
 		}
 
 		if (!checkRange(index, id)) {
-			System.out.println("index not in allowed range id:" + id + " index:" + index);
+//			System.out.println("index not in allowed range id:" + id + " index:" + index);
 			return false;
 		}
 		return true;
