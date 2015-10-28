@@ -1,9 +1,5 @@
 package gameBoard;
 
-import java.util.Arrays;
-
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
-
 /**
  * 
  * @author Fredrik
@@ -17,6 +13,8 @@ public class Board {
 	 * to playerOne 8-13 belong to playerTwo
 	 */
 	private int[] gameBoard = new int[14];
+	private int playerOneKalaha = 7;
+	private int playerTwoKalaha = 0;
 	private int[] playerOneRange = { 1, 2, 3, 4, 5, 6 };
 	private int[] playerTwoRange = { 8, 9, 10, 11, 12, 13 };
 
@@ -37,37 +35,66 @@ public class Board {
 		if (!checkValidIndex(index, id)) {
 			return false;
 		}
+
 		int marbels = gameBoard[index];
-		gameBoard[index] = 0;
-
+		if (index == 8) {
+			System.out.println(marbels);
+		}
+		gameBoard[index++] = 0;
+		if (index == 9) {
+			System.out.println(gameBoard[8]);
+		}
 		while (marbels != 0) {
-			if (id == 1 && index % 14 == 7) {
+			/*
+			 * Don't put a marble in the opponents Kalaha otherwise continue as
+			 * usual
+			 */
+			if (id == 1 && index % 14 == playerTwoKalaha) {
 				index++;
-			}
-
-			else if (id == 2 && index % 14 == 0) {
+			} else if (id == 2 && index % 14 == playerOneKalaha) {
 				index++;
-			}
-
-			else {
+			} else {
 				gameBoard[index % 14]++;
 				index++;
 				marbels--;
 			}
 		}
-		if (index % 14 == 0 || index % 14 == 7) {
+		/*
+		 * Reduce index by 1 so we are on the right ambona If the last marble is
+		 * on the players side in a empty ambona move it to the players kalaha
+		 */
+
+		index--;
+		if (gameBoard[index % 14] == 1 && checkRange(index, id)) {
+			gameBoard[index % 14]--;
+
+			int nMarbles = gameBoard[14 - index % 14] + 1;
+			gameBoard[14 - index % 14] = 0;
+
+			if (id == 1) {
+				gameBoard[7] += nMarbles;
+			} else {
+				gameBoard[0] += nMarbles;
+			}
+		}
+
+		/*
+		 * If the last marble is in the players kalaha they may go again
+		 */
+		if (index % 14 == playerTwoKalaha || index % 14 == playerOneKalaha) {
 			return true;
 		}
 		return false;
 	}
 
-	/**
-	 * if all marbles are in Kalahas the game has ended
+	/*
+	 * if all marbles are in Kalahas the game has ended TODO if one side is
+	 * empty the game ends aswell
 	 * 
 	 * @return true when the game is finished
 	 */
 	public boolean gameFinished() {
-		if (gameBoard[0] + gameBoard[6] == 36) {
+		if (gameBoard[playerTwoKalaha] + gameBoard[playerOneKalaha] == 36) {
 			return true;
 		}
 		return false;
@@ -97,16 +124,15 @@ public class Board {
 		} else {
 			return playerTwoRange;
 		}
-
 	}
 
-	/**
-	 * Small method to make sure each ambona has 3 marbles each before the game
+	/*
+	 * Small method to make sure each ambona has 3 marbles before the game
 	 * starts
 	 */
 	private void setupBoard() {
 		for (int i = 0; i < gameBoard.length; i++) {
-			if (i == 0 || i == 7) {
+			if (i == playerTwoKalaha || i == playerOneKalaha) {
 
 			} else {
 				gameBoard[i] = 3;
@@ -115,13 +141,13 @@ public class Board {
 	}
 
 	private boolean checkValidIndex(int index, int id) {
-		if (index == 0 || index == 7) {
+		if (index == playerTwoKalaha || index == playerOneKalaha) {
 			System.out.println("tried to move Kalaha");
 			return false;
 		}
 
 		if (!checkRange(index, id)) {
-			System.out.println("index not in allowed range");
+			System.out.println("index not in allowed range id:" + id + " index:" + index);
 			return false;
 		}
 		return true;
@@ -130,14 +156,14 @@ public class Board {
 	private boolean checkRange(int index, int id) {
 		if (id == 1) {
 			for (int i = 0; i < playerOneRange.length; i++) {
-				if (playerOneRange[i] == index) {
+				if (playerOneRange[i] == index % 14) {
 					return true;
 				}
 			}
 			return false;
 		} else {
 			for (int i = 0; i < playerTwoRange.length; i++) {
-				if (playerTwoRange[i] == index) {
+				if (playerTwoRange[i] == index % 14) {
 					return true;
 				}
 			}

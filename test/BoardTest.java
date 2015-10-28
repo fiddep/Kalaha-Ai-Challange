@@ -8,30 +8,45 @@ import gameBoard.Board;
 
 public class BoardTest {
 	Board board = new Board();
-	
-	@Test
+
 	/**
-	 * Ambonas are index 1-5 and 7-13
-	 * 0 and 14 are kalahas
+	 * Ambonas are index 1-6 and 8-13 0 and 7 are kalahas
 	 */
+	@Test
 	public void checkAmbonaValue() {
-		for(int i=1; i<6; i++){
-			assertEquals("Ambona value was not 3 @ index:"+i, 3, board.getAmbonaValue(i));
+		for (int i = 1; i < 6; i++) {
+			assertEquals("Ambona value was not 3 @ index:" + i, 3, board.getAmbonaValue(i));
 		}
-		for(int i=8; i<13; i++){
-			assertEquals("Ambona value was not 3 @ index:"+i, 3, board.getAmbonaValue(i));
+		for (int i = 8; i < 13; i++) {
+			assertEquals("Ambona value was not 3 @ index:" + i, 3, board.getAmbonaValue(i));
 		}
 	}
-	
+
 	@Test
-	public void moveTest(){
-		board.move(1, 1);
-		assertEquals("Value after move not correct", 4,board.getAmbonaValue(2));
-		
-		board.move(2,1);
-		assertEquals("Value after move not correct", 5,board.getAmbonaValue(3));
-		
-		assertFalse(message, condition);
+	public void moveTest() {
+		for (int i = 1; i < 6; i++) {
+			board.move(i, 1);
+		}
+		for (int i = 1; i < 6; i++) {
+			assertEquals("Value after move not correct", 0, board.getAmbonaValue(i));
+		}
+
+		assertEquals("Value after move not correct", 7, board.getAmbonaValue(6));
+		assertEquals("Value in Kalaha after move not correct", 3, board.getAmbonaValue(7));
+
+		for (int i = 8; i < 14; i++) {
+			board.move(i, 2);
+		}
+		for (int i = 8; i < 14; i++) {
+			assertEquals("Value after move not correct on index:" + i, 0, board.getAmbonaValue(i));
+		}
+		assertEquals("Value in Kalaha after move not correct", 15, board.getAmbonaValue(0));
+	}
+
+	@Test
+	public void wrongIndexTest() {
+		assertFalse("Player allowed to move other players ambonas", board.move(1, 2));
+		assertFalse("Player allowed to move other players ambonas", board.move(9, 1));
 	}
 
 }

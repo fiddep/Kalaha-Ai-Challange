@@ -20,7 +20,9 @@ public class EasyAi extends Ai {
 		}
 		
 		index = (int) ((Math.random() * 10) % 6);
-		System.out.println(id + ": " + range[index]);
+		if(id==1){
+			System.out.println(id + ": " + range[index]);
+		}
 		return range[index];
 	}
 
